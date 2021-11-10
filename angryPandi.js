@@ -4,12 +4,12 @@ var food
 var LEFT, RIGHT, UP, DOWN
 var movement_x, movement_y
 var line1, line2
-var minutes_counter = pad(10);
-var seconds_counter = pad(10);
+var minutes_counter = pad(0);
+var seconds_counter = pad(0);
 var totalSeconds = 0;
 var food_eaten = 0
 var level = 0
-var time_left
+var seconds_left = minutes_left =  pad(10)
 setInterval(setTime, 1000);
 var timer_text, score_text, level_text
 
@@ -27,8 +27,6 @@ function preload() {
 
 function create() {
     player = game.add.image(Math.random()*380+50,Math.random()*280+50,'player')
-
-    // player.scale = 1
     player.width = 40
     player.height = 67
     // game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -41,9 +39,10 @@ function create() {
     timer_text = game.add.text(0, 0, 'Time left: '+minutes_counter+":"+seconds_counter, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     score_text = game.add.text(200, 0, 'Food eaten: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
+    
+    totalSeconds=7;
 
 
-    game.physics.arcade.collide(player, food, playerEatFood);
 
 }
 
@@ -56,7 +55,14 @@ function update() {
     timer_text.text = 'Time left: '+minutes_counter+":"+seconds_counter
     level_text.text = 'Level: '+level
     score_text.text = 'Food eaten: '+food_eaten
+    game.physics.arcade.collide(player, food, playerEatFood, null, game);
 
+    finishGame()
+} 
+
+function finishGame(){
+    if(totalSeconds <= 0)
+        alert("Juego terminado");
 }
 
 function render(){
@@ -65,7 +71,7 @@ function render(){
 }
 
 function setTime() {
-    ++totalSeconds;
+    --totalSeconds;
     seconds_counter = pad(totalSeconds % 60);
     minutes_counter = pad(parseInt(totalSeconds / 60));
 }
@@ -89,6 +95,7 @@ function playerEatFood(ball, brick) {
         level++
     }
     food_eaten++
+    totalSeconds+=2
 }
 
 function movePlayer(){
