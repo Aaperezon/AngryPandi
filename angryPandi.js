@@ -4,24 +4,26 @@ var food
 var LEFT, RIGHT, UP, DOWN
 var movement_x, movement_y
 var line1, line2
-var minutes_counter = pad(0);
-var seconds_counter = pad(0);
+var minutes_counter = pad(10);
+var seconds_counter = pad(10);
 var totalSeconds = 0;
 var food_eaten = 0
 var level = 0
 setInterval(setTime, 1000);
 var timer_text, score_text, level_text
+
 function preload() {
 	handleRemoteImagesOnJSFiddle();
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
-    game.stage.backgroundColor = '#eee';
-    game.load.image('player', 'img/player.jpg');
-    game.load.image('food', 'img/food.png');
+    game.stage.backgroundColor = '#b2e2f2';
+    game.load.image('player','img\vanelope.png');
+    game.load.image('food', 'img\helado.png');
     movement_x = 1
     movement_y = 1
 }
+
 function create() {
     player = game.add.sprite(game.world.width*0.5, game.world.height*.5, 'player');
     game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -31,14 +33,12 @@ function create() {
 
     line1 = new Phaser.Line(player.x, player.y, food.x, food.y);
     line2 = new Phaser.Line(player.x+player.width, player.y+player.height, food.x+food.width, food.y+food.height);
-    timer_text = game.add.text(0, 0, 'Time left: '+minutes_counter+":"+seconds_counter, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:10 });
-    score_text = game.add.text(200, 0, 'Food eaten: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:10 });
-    level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:10 });
-
+    timer_text = game.add.text(0, 0, 'Time left: '+minutes_counter+":"+seconds_counter, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
+    score_text = game.add.text(200, 0, 'Food eaten: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
+    level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
 }
 
 function update() {
-    
     movePlayer()
     console.log("X:"+movement_x+" Y:"+movement_y);
 
@@ -51,6 +51,7 @@ function update() {
     score_text.text = 'Food eaten: '+food_eaten
 
 }
+
 function render(){
     game.debug.geom(line1);
     game.debug.geom(line2);
@@ -61,6 +62,7 @@ function setTime() {
     seconds_counter = pad(totalSeconds % 60);
     minutes_counter = pad(parseInt(totalSeconds / 60));
 }
+
 function pad(val) {
     var valString = val + "";
     if (valString.length < 2) {
@@ -69,6 +71,7 @@ function pad(val) {
       return valString;
     }
 }
+
 function playerEatFood(ball, brick) {
     food.kill();
     food = game.add.sprite(Math.random()*380+100, Math.random()*220+100, 'food');
@@ -79,7 +82,6 @@ function playerEatFood(ball, brick) {
         level++
     }
     food_eaten++
-
 }
 
 function movePlayer(){
