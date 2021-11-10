@@ -9,6 +9,7 @@ var seconds_counter = pad(10);
 var totalSeconds = 0;
 var food_eaten = 0
 var level = 0
+var time_left
 setInterval(setTime, 1000);
 var timer_text, score_text, level_text
 
@@ -18,17 +19,22 @@ function preload() {
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.stage.backgroundColor = '#b2e2f2';
-    game.load.image('player','img\vanelope.png');
-    game.load.image('food', 'img\helado.png');
+    game.load.image('player','./img/vanelope.png');
+    game.load.image('food', './img/helado.png');
     movement_x = 1
     movement_y = 1
 }
 
 function create() {
-    player = game.add.sprite(game.world.width*0.5, game.world.height*.5, 'player');
-    game.physics.enable(player, Phaser.Physics.ARCADE);
+    player = game.add.image(Math.random()*380+50,Math.random()*280+50,'player')
+    player = game.physics.add.image(0, 0, 'ship');
 
-    food = game.add.sprite(game.world.width*0.5, game.world.height*.5, 'food');
+    // player.scale = 1
+    player.width = 40
+    player.height = 67
+    // game.physics.enable(player, Phaser.Physics.ARCADE);
+    food = game.add.image(game.world.width*0.5, game.world.height*.5, 'food');
+    // food.scale = 0.5
     game.physics.enable(food, Phaser.Physics.ARCADE);
 
     line1 = new Phaser.Line(player.x, player.y, food.x, food.y);
@@ -36,13 +42,16 @@ function create() {
     timer_text = game.add.text(0, 0, 'Time left: '+minutes_counter+":"+seconds_counter, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     score_text = game.add.text(200, 0, 'Food eaten: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
+
+
+    game.physics.add.collider(player, food)
+    // game.physics.arcade.collide(player, food, playerEatFood);
+
 }
 
 function update() {
     movePlayer()
-    console.log("X:"+movement_x+" Y:"+movement_y);
-
-    game.physics.arcade.collide(player, food, playerEatFood);
+    // console.log("X:"+movement_x+" Y:"+movement_y);
     line1.setTo(player.x, player.y, food.x, food.y);
     line2.setTo(player.x+player.width, player.y+player.height, food.x+food.width, food.y+food.height);
 
@@ -74,7 +83,7 @@ function pad(val) {
 
 function playerEatFood(ball, brick) {
     food.kill();
-    food = game.add.sprite(Math.random()*380+100, Math.random()*220+100, 'food');
+    food = game.add.sprite(Math.random()*380+50, Math.random()*280+50, 'food');
     game.physics.enable(food, Phaser.Physics.ARCADE);
     movement_x = Math.abs(movement_x)+1
     movement_y = Math.abs(movement_y)+1
@@ -140,8 +149,7 @@ function movePlayer(){
 
 }
 
-// this function (needed only on JSFiddle) take care of loading the images from the remote server
 function handleRemoteImagesOnJSFiddle() {
-	game.load.baseURL = 'https://end3r.github.io/Gamedev-Phaser-Content-Kit/demos/';
+	game.load.baseURL = '.';
 	game.load.crossOrigin = 'anonymous';
 }
