@@ -27,7 +27,6 @@ function preload() {
 
 function create() {
     player = game.add.image(Math.random()*380+50,Math.random()*280+50,'player')
-    player = game.physics.add.image(0, 0, 'ship');
 
     // player.scale = 1
     player.width = 40
@@ -44,8 +43,7 @@ function create() {
     level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
 
 
-    game.physics.add.collider(player, food)
-    // game.physics.arcade.collide(player, food, playerEatFood);
+    game.physics.arcade.collide(player, food, playerEatFood);
 
 }
 
