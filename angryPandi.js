@@ -18,7 +18,7 @@ function preload() {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
-    game.stage.backgroundColor = '#b2e2f2';
+    game.stage.backgroundColor = '#dc7687';
     game.load.image('player','./img/vanelope.png');
     game.load.image('food', './img/helado.png');
     movement_x = 1
@@ -40,10 +40,7 @@ function create() {
     score_text = game.add.text(200, 0, 'Food eaten: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     
-    totalSeconds=7;
-
-
-
+    totalSeconds=12;
 }
 
 function update() {
@@ -55,14 +52,30 @@ function update() {
     timer_text.text = 'Time left: '+minutes_counter+":"+seconds_counter
     level_text.text = 'Level: '+level
     score_text.text = 'Food eaten: '+food_eaten
-    game.physics.arcade.collide(player, food, playerEatFood, null, game);
-
+    //game.physics.arcade.collide(player, food, playerEatFood, null, game);
+    collide()
     finishGame()
 } 
 
+function collide(){
+    if (player.x < food.x + food.width &&
+        player.x + player.width > food.x &&
+        player.y < food.y + food.height &&
+        player.height + player.y > food.y) {
+            console.log("COLISION");
+            playerEatFood()
+     }else{
+        console.log("NO HAN CHOCADO");
+     }
+     
+}
+
 function finishGame(){
     if(totalSeconds <= 0)
-        alert("Juego terminado");
+        location.reload();
+    else{
+        // Seguir jugando
+    }
 }
 
 function render(){

@@ -1,1 +1,6 @@
 * { padding: 0; margin: 0; }
+.fondoHelado {
+    /*background-image:url("https://mdn.mozillademos.org/files/6457/mdn_logo_only_color.png");*/
+    background-image: url("img/fondo3.png");
+    background-color: transparent;
+  }
