@@ -12,7 +12,7 @@ var level = 0
 var seconds_left = minutes_left =  pad(10)
 setInterval(setTime, 1000);
 var timer_text, score_text, level_text
-
+var gameover
 function preload() {
 	handleRemoteImagesOnJSFiddle();
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -23,6 +23,8 @@ function preload() {
     game.load.image('food', './img/helado.png');
     movement_x = 1
     movement_y = 1
+    gameover = false
+
 }
 
 function create() {
@@ -40,21 +42,24 @@ function create() {
     score_text = game.add.text(200, 0, 'Food eaten: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     
-    totalSeconds=12;
+    totalSeconds=5;
 }
 
 function update() {
-    movePlayer()
-    // console.log("X:"+movement_x+" Y:"+movement_y);
-    line1.setTo(player.x, player.y, food.x, food.y);
-    line2.setTo(player.x+player.width, player.y+player.height, food.x+food.width, food.y+food.height);
-
-    timer_text.text = 'Time left: '+minutes_counter+":"+seconds_counter
-    level_text.text = 'Level: '+level
-    score_text.text = 'Food eaten: '+food_eaten
-    //game.physics.arcade.collide(player, food, playerEatFood, null, game);
-    collide()
-    finishGame()
+    if(gameover != true){
+        movePlayer()
+        // console.log("X:"+movement_x+" Y:"+movement_y);
+        line1.setTo(player.x, player.y, food.x, food.y);
+        line2.setTo(player.x+player.width, player.y+player.height, food.x+food.width, food.y+food.height);
+    
+        timer_text.text = 'Time left: '+minutes_counter+":"+seconds_counter
+        level_text.text = 'Level: '+level
+        score_text.text = 'Food eaten: '+food_eaten
+        //game.physics.arcade.collide(player, food, playerEatFood, null, game);
+        collide()
+        finishGame()
+    }
+  
 } 
 
 function collide(){
@@ -72,12 +77,21 @@ function collide(){
 
 function finishGame(){
     if(totalSeconds <= 0)
-    var play = confirm("Quiere volver a jugar?")
-    if(play == true)
-        location.reload()
-    else{
-        // Seguir jugando
+    {
+        var play = confirm("Quiere volver a jugar?")
+        if(play == true)
+        {
+            gameover = false
+            location.reload()
+        }
+        else
+        {
+            gameover = true
+    
+        }
     }
+ 
+ 
 }
 
 function render(){
