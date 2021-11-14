@@ -72,7 +72,9 @@ function collide(){
 
 function finishGame(){
     if(totalSeconds <= 0)
-        location.reload();
+    var play = confirm("Quiere volver a jugar?")
+    if(play == true)
+        location.reload()
     else{
         // Seguir jugando
     }
