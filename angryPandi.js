@@ -31,31 +31,27 @@ function create() {
     player = game.add.image(Math.random()*380+50,Math.random()*280+50,'player')
     player.width = 40
     player.height = 67
-    // game.physics.enable(player, Phaser.Physics.ARCADE);
     food = game.add.image(game.world.width*0.5, game.world.height*.5, 'food');
-    // food.scale = 0.5
     game.physics.enable(food, Phaser.Physics.ARCADE);
 
     line1 = new Phaser.Line(player.x, player.y, food.x, food.y);
     line2 = new Phaser.Line(player.x+player.width, player.y+player.height, food.x+food.width, food.y+food.height);
-    timer_text = game.add.text(0, 0, 'Time left: '+minutes_counter+":"+seconds_counter, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
-    score_text = game.add.text(200, 0, 'Food eaten: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
-    level_text = game.add.text(400, 0, 'Level: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
+    timer_text = game.add.text(0, 0, 'Tiempo: '+minutes_counter+":"+seconds_counter, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
+    score_text = game.add.text(200, 0, 'Helados: '+food_eaten, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
+    level_text = game.add.text(400, 0, 'Nivel: '+level, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', fontSize:13 });
     
-    totalSeconds=5;
+    totalSeconds=8;
 }
 
 function update() {
     if(gameover != true){
         movePlayer()
-        // console.log("X:"+movement_x+" Y:"+movement_y);
         line1.setTo(player.x, player.y, food.x, food.y);
         line2.setTo(player.x+player.width, player.y+player.height, food.x+food.width, food.y+food.height);
     
-        timer_text.text = 'Time left: '+minutes_counter+":"+seconds_counter
-        level_text.text = 'Level: '+level
-        score_text.text = 'Food eaten: '+food_eaten
-        //game.physics.arcade.collide(player, food, playerEatFood, null, game);
+        timer_text.text = 'Tiempo: '+minutes_counter+":"+seconds_counter
+        level_text.text = 'Nivel: '+level
+        score_text.text = 'Helado: '+food_eaten
         collide()
         finishGame()
     }
@@ -133,28 +129,24 @@ function movePlayer(){
         RIGHT = false
         UP = false
         DOWN = false
-        // console.log("LEFT")
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
         LEFT = false
         RIGHT = true
         UP = false
         DOWN = false    
-        // console.log("RIGHT")
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)){
         LEFT = false
         RIGHT = false
         UP = true
         DOWN = false    
-        // console.log("UP")
     }
     else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)){
         LEFT = false
         RIGHT = false
         UP = false
         DOWN = true    
-        // console.log("DOWN")
     }
     if(LEFT == true){
         if(movement_x > 0){
