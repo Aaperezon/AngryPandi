@@ -19,8 +19,8 @@ function preload() {
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.stage.backgroundColor = '#dc7687';
-    game.load.image('player','./img/vanelope.png');
-    game.load.image('food', './img/helado.png');
+    game.load.image('player','/img/vanelope.png');
+    game.load.image('food', '/img/helado.png');
     movement_x = 1
     movement_y = 1
     gameover = false
